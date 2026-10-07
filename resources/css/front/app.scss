@@ -1,0 +1,90 @@
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+@import 'bootstrap/scss/bootstrap';
+
+:root {
+    --primary: #0b57c9;
+    --accent-green: #28a745;
+    --section-bg: #e8f2fc;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.topbar {
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.875rem;
+    a { color: #fff; }
+}
+
+.site-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.brand-title {
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.main-nav {
+    background: var(--primary);
+    .nav-link {
+        color: #fff !important;
+        font-weight: 500;
+    }
+}
+
+.hero-title-accent {
+    color: var(--accent-green);
+}
+
+.card-soft {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.section-muted {
+    background: var(--section-bg);
+}
+
+.program-card {
+    border-radius: 0.75rem;
+    color: #fff;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.date-box {
+    width: 56px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    .day { font-size: 1.25rem; font-weight: 700; line-height: 1; }
+    .month { font-size: 0.75rem; color: #6c757d; }
+}
+
+.site-footer {
+    background: #0a2d5c;
+    color: #fff;
+    a { color: #cfe2ff; }
+}
+
+#backToTop {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: none;
+    z-index: 999;
+}

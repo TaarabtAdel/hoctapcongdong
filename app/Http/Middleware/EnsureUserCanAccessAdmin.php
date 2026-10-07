@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class EnsureUserCanAccessAdmin
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        $user = $request->user();
+        if (! $user || ! $user->canAccessAdmin()) {
+            abort(403, __('admin.errors.no_access'));
+        }
+
+        return $next($request);
+    }
+}
