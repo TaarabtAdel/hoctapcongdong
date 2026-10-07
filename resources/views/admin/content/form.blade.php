@@ -2,6 +2,14 @@
 
 @push('scripts')
 <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
+<script>
+(function waitForEditor() {
+    if (window.tinymce && typeof window.initHtcdContentEditor === 'function' && window.initHtcdContentEditor()) {
+        return;
+    }
+    setTimeout(waitForEditor, 50);
+})();
+</script>
 @endpush
 
 @section('title', $item->exists ? __('admin.actions.edit').': '.$item->title : __('admin.actions.add_new').' '.$singularLabel)
@@ -19,7 +27,12 @@
             <div class="mb-2 small">
                 Permalink: <code>{{ url('/.../') }}<input type="text" name="slug" value="{{ old('slug', $item->slug) }}" class="form-control form-control-sm d-inline-block w-auto"></code>
             </div>
-            <textarea id="content-editor" name="content" class="form-control" rows="12">{{ old('content', $item->content) }}</textarea>
+            <div class="card card-outline card-secondary mb-3">
+                <div class="card-header py-2"><h3 class="card-title mb-0">Nội dung</h3></div>
+                <div class="card-body p-2">
+                    <textarea id="content-editor" name="content" class="form-control border-0" rows="12">{{ old('content', $item->content) }}</textarea>
+                </div>
+            </div>
             <div id="autosave-status" class="small text-muted mt-1"></div>
 
             @include('admin.content.partials.module-fields')

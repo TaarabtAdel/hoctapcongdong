@@ -6,29 +6,39 @@
     <title>Đặt lại mật khẩu</title>
     @vite(['resources/css/admin/app.scss'])
 </head>
-<body class="admin-body">
-<div class="wp-login">
-    <h1 class="h5 mb-3">Đặt lại mật khẩu</h1>
-    @if($errors->any())
-        <div class="alert alert-danger">{{ $errors->first() }}</div>
-    @endif
-    <form method="post" action="{{ route('admin.password.update') }}">
-        @csrf
-        <input type="hidden" name="token" value="{{ $token }}">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" value="{{ old('email', $email) }}" required>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo"><b>Đặt lại mật khẩu</b></div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            @if($errors->any())
+                <div class="alert alert-danger">{{ $errors->first() }}</div>
+            @endif
+            <form method="post" action="{{ route('admin.password.update') }}">
+                @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Email" value="{{ old('email', $email) }}" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Mật khẩu mới" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password_confirmation" class="form-control" placeholder="Nhập lại mật khẩu" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Lưu mật khẩu</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label>Mật khẩu mới</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label>Nhập lại mật khẩu</label>
-            <input type="password" name="password_confirmation" class="form-control" required>
-        </div>
-        <button class="btn btn-primary btn-block">Lưu mật khẩu</button>
-    </form>
+    </div>
 </div>
 </body>
 </html>

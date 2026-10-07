@@ -33,6 +33,8 @@ class BannerController extends Controller
 
     public function edit(Banner $banner): View
     {
+        $banner->load('image');
+
         return view('admin.banners.form', ['item' => $banner]);
     }
 
@@ -57,13 +59,20 @@ class BannerController extends Controller
      */
     private function validated(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:50'],
-            'image_id' => ['nullable', 'exists:media,id'],
+            'image_id' => ['nullable', 'integer', 'exists:media,id'],
             'title' => ['nullable', 'string', 'max:255'],
-            'link_url' => ['nullable', 'url'],
+            'link_url' => ['nullable', 'string', 'max:500'],
             'is_active' => ['nullable', 'boolean'],
-        ]) + ['is_active' => $request->boolean('is_active', true)];
+        ]);
+
+        $data['is_active'] = $request->boolean('is_active', true);
+        if (array_key_exists('image_id', $data) && blank($data['image_id'])) {
+            $data['image_id'] = null;
+        }
+
+        return $data;
     }
 }

@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle';
+import 'admin-lte/dist/js/adminlte.min.js';
 import 'select2';
 import Swal from 'sweetalert2';
 import flatpickr from 'flatpickr';
@@ -124,34 +125,46 @@ function initQuickEdit() {
     });
 }
 
+window.initHtcdContentEditor = function initHtcdContentEditor() {
+    const editorEl = document.querySelector('#content-editor');
+    if (!editorEl || !window.tinymce) {
+        return false;
+    }
+    if (window.tinymce.get('content-editor')) {
+        return true;
+    }
+    window.tinymce.init({
+        selector: '#content-editor',
+        height: 420,
+        menubar: 'edit view insert format tools table',
+        plugins: 'link lists code table fullscreen wordcount media autoresize',
+        toolbar: 'undo redo | blocks | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link media medialibrary | table code fullscreen',
+        branding: false,
+        license_key: 'gpl',
+        base_url: '/vendor/tinymce',
+        suffix: '.min',
+        promotion: false,
+        setup(editor) {
+            editor.ui.registry.addButton('medialibrary', {
+                text: 'Thư viện',
+                onAction() {
+                    mediaPickerTarget = { tagName: 'TINYMCE', editor };
+                    loadMediaGrid();
+                    $('#mediaLibraryModal').modal('show');
+                },
+            });
+        },
+    });
+    return true;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     $('.select2').select2({ width: '100%' });
     flatpickr('.datetime-picker', { enableTime: true, dateFormat: 'Y-m-d H:i' });
     flatpickr('.flatpickr-date', { dateFormat: 'Y-m-d' });
 
-    const editorEl = document.querySelector('#content-editor');
-    if (editorEl && window.tinymce) {
-        window.tinymce.init({
-            target: editorEl,
-            height: 420,
-            menubar: false,
-            plugins: 'link lists code table fullscreen wordcount media',
-            toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright | bullist numlist | link media medialibrary | table code fullscreen',
-            branding: false,
-            license_key: 'gpl',
-            base_url: '/vendor/tinymce',
-            suffix: '.min',
-            setup(editor) {
-                editor.ui.registry.addButton('medialibrary', {
-                    text: 'Media',
-                    onAction() {
-                        mediaPickerTarget = { tagName: 'TINYMCE', editor };
-                        loadMediaGrid();
-                        $('#mediaLibraryModal').modal('show');
-                    },
-                });
-            },
-        });
+    if (document.querySelector('#content-editor') && window.tinymce) {
+        window.initHtcdContentEditor();
     }
 
     document.body.addEventListener('click', e => {
